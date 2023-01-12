@@ -10,7 +10,7 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/-unesa-logo.png" rel="icon">
+    <link href="assets/img/imm-unesa-logo.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -216,8 +216,8 @@
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Users Name</h6>
-                            <span>Level</span>
+                            <h6>{{Auth::guard('user')->user()->username}}{{Auth::guard('admin')->user()->username}}</h6>
+                            <span>{{Auth::guard('user')->user()->level}}{{Auth::guard('admin')->user()->level}}</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -244,7 +244,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="/logout">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>

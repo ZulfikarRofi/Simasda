@@ -1291,3 +1291,6 @@ h6 {
     border-radius: 100px;
     width: 10rem;
 }
+.background-img {
+    background-images: url("../img/musykom2021.JPG");
+}

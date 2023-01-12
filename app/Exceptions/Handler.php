@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -26,7 +27,6 @@ class Handler extends ExceptionHandler
         'password',
         'password_confirmation',
     ];
-
     /**
      * Register the exception handling callbacks for the application.
      *
@@ -37,5 +37,24 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function report(Throwable $e)
+    {
+        parent::report($e);
+    }
+
+    public function render($request, Throwable $e)
+    {
+        return parent::render($request, $e);
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated.'],);
+        }
+
+        return redirect('/login');
     }
 }
