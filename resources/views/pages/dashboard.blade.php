@@ -75,6 +75,7 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title m-0">Information and Articles <span>| Today</span></h5>
+                @foreach($article as $value)
                 <div class="row article-queue">
                     <div class="col-4 py-3 px-0">
                         <img src="assets/img/news-2.jpg" alt="news" style="width: 100%;">
@@ -82,56 +83,19 @@
                     <div class="col-8 py-3 px-2 d-flex justify-content-start">
                         <div class="news-fill news-fill-activity">
                             <div class="top-sec">
-                                <h4 class="fw-semibold"><a href="/articlepage"> This is the article title</a></h4>
+                                <h4 class="fw-semibold"><a href="/articlepage/{{$value->id}}"> {{$value->title}}</a></h4>
                                 <p class="text-align-justify">
-                                    This is the article news caption, you can text here at least 100 characters. please detail it to confirm the news or articles
+                                    {{$value->caption}}
                                 </p>
                             </div>
                             <div class="bottom-sec">
                                 <p class="passive-text p-0 m-0">Author : <span><a href="#">Author's Name</a></span></p>
-                                <p class="passive-text p-0 m-0">Publish Date : 22-January-2023</p>
+                                <p class="passive-text p-0 m-0">Publish Date : {{$value->created_at}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row article-queue">
-                    <div class="col-4 py-3 px-0">
-                        <img src="assets/img/news-2.jpg" alt="news" style="width: 100%;">
-                    </div>
-                    <div class="col-8 py-3 px-2 d-flex justify-content-start">
-                        <div class="news-fill news-fill-activity">
-                            <div class="top-sec">
-                                <h4 class="fw-semibold"><a href="/articlepage"> This is the article title</a></h4>
-                                <p class="text-align-justify">
-                                    This is the article news caption, you can text here at least 100 characters. please detail it to confirm the news or articles
-                                </p>
-                            </div>
-                            <div class="bottom-sec">
-                                <p class="passive-text p-0 m-0">Author : <span><a href="#">Author's Name</a></span></p>
-                                <p class="passive-text p-0 m-0">Publish Date : 22-January-2023</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row article-queue">
-                    <div class="col-4 py-3 px-0">
-                        <img src="assets/img/news-2.jpg" alt="news" style="width: 100%;">
-                    </div>
-                    <div class="col-8 py-3 px-2 d-flex justify-content-start">
-                        <div class="news-fill news-fill-activity">
-                            <div class="top-sec">
-                                <h4 class="fw-semibold"><a href="/articlepage"> This is the article title</a></h4>
-                                <p class="text-align-justify">
-                                    This is the article news caption, you can text here at least 100 characters. please detail it to confirm the news or articles
-                                </p>
-                            </div>
-                            <div class="bottom-sec">
-                                <p class="passive-text p-0 m-0">Author : <span><a href="#">Author's Name</a></span></p>
-                                <p class="passive-text p-0 m-0">Publish Date : 22-January-2023</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
 
@@ -140,12 +104,14 @@
 
 <!-- Right side columns -->
 <div class="col-lg-4">
+    @foreach($announce as $value)
     <div class="card" style="background-color: yellow;">
         <div class="card-body pb-0">
             <h5 class="card-title">Announcement<span> | Account</span></h5>
-            <p class="passive-text">anybody who need support to use this app can connect with admin <span><a href="#">here</a></span>. or call developer by mail <span><a href="#">here</a></span>.</p>
+            <p class="passive-text">{{$value->announce_fill}}.</p>
         </div>
     </div>
+    @endforeach
     <!-- News & Updates Traffic -->
     <div class="card">
         <div class="filter d-flex justify-content-end px-3 pt-2">

@@ -5,39 +5,42 @@
 
 <div class="row">
     <div class="card px-5 py-3">
+        @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            Oops! some input is wrong
+            @foreach($errors->all() as $error)
+            <li class="text-red-500 list-none">
+                {{ $error }}
+            </li>
+            @endforeach
+        </div>
+        @endif
         <div class="mb-2">
             <h5 class="card-title mb-0">Content Management <span> | Create Content</span></h5>
             <p class="passive-text">Fill these form until complete to create new content</p>
             <hr>
         </div>
-        <div class="">
-            <!-- Floating Labels Form -->
-            <form class="row g-3">
-                <div class="col-md-12">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingName" placeholder="New Content Title">
-                        <label for="floatingTitle">New Content Title</label>
-                    </div>
+        <form action="/createarticle" method="post">
+            @csrf
+            <div class="row mb-3 px-2">
+                <input type="text" class="form-control" id="title" name="title" placeholder="New Content Title">
+            </div>
+            <div class="row mb-3 px-2">
+                <input type="text" class="form-control" id="caption" name="caption" placeholder="New Content Caption">
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <input type="text" class="form-control" id="author" name="author" placeholder="Publisher">
                 </div>
-                <div class="col-md-6">
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingEmail" placeholder="Publisher">
-                        <label for="floatingPublisher">Publisher</label>
-                    </div>
+                <div class="col-6">
+                    <input type="file" class="form-control" id="image" name="image">
                 </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
-                    </div>
-                </div>
-            </form><!-- End floating Labels Form -->
-        </div>
-        <!-- TinyMCE Editor -->
-        <textarea class="tinymce-editor">
-                <p>Hello World!</p>
-                <p>This is TinyMCE <strong>full</strong> editor</p>
-        </textarea><!-- End TinyMCE Editor -->
+            </div>
+            <div class="row mb-3 px-2">
+                <textarea class="form-control" placeholder="Description here" id="description" name="description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary float-end">Submit</button>
+        </form>
     </div>
 </div>
 

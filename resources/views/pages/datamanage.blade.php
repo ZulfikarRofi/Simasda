@@ -4,6 +4,16 @@
 @section('content')
 
 <div class="card">
+    @if($errors->any())
+    <div class="alert alert-danger" role="alert">
+        Oops! some input is wrong
+        @foreach($errors->all() as $error)
+        <li class="text-red-500 list-none">
+            {{ $error }}
+        </li>
+        @endforeach
+    </div>
+    @endif
     <div class="content-headpage mb-3">
         <h5 class="card-title">Content Management <span> | List Content</span></h5>
         <div class="right">
@@ -24,53 +34,52 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title fw-bold">New Announcement</h5>
+                                    <h5 class="modal-title fw-bold">New Data Kader</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="col-sm-12">
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingusername" placeholder="Nama Kader">
-                                            <label for="floatingusername">Nama Kader</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingkomisariat" placeholder="Komisariat">
-                                            <label for="floatingkomisariat">Komisariat</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingjurusan" placeholder="Jurusan">
-                                            <label for="floatingjurusan">Jurusan</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="floatingangkatan" placeholder="Angkatan">
-                                            <label for="floatingangkatan">Angkatan</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                                            <label for="floatingInput">Email address</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                                                <option selected>Open this select user level</option>
-                                                <option value="1">Admin</option>
-                                                <option value="2">User</option>
-                                            </select>
-                                            <label for="floatingSelect">User's Level</label>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                                                <option selected>Open this select user's status</option>
-                                                <option value="1">Mahasiswa Aktif</option>
-                                                <option value="2">Alumni</option>
-                                            </select>
-                                            <label for="floatingSelect">User's Status</label>
+                                <form action="/createdatakader" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="col-sm-12">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="name" name="name" placeholder="Nama Kader">
+                                                <label for="floatingusername">Nama Kader</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="komisariat" name="komisariat" placeholder="Komisariat">
+                                                <label for="floatingkomisariat">Komisariat</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="jurusan" name="jurusan" placeholder="Jurusan">
+                                                <label for="floatingjurusan">Jurusan</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="angkatan" name="angkatan" placeholder="Angkatan">
+                                                <label for="floatingangkatan">Angkatan</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+                                                <label for="floatingInput">Email address</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="number_phone" name="number_phone" placeholder="Number Phone">
+                                                <label for="floatingInput">Number Phone</label>
+                                            </div>
+                                            <div class="form-floating mb-3">
+                                                <select class="form-select" id="status" name="status" aria-label="Floating label select example">
+                                                    <option selected>Open this select user's status</option>
+                                                    <option value="Mahasiswa aktif">Mahasiswa Aktif</option>
+                                                    <option value="Alumni">Alumni</option>
+                                                </select>
+                                                <label for="floatingSelect">User's Status</label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary">Create</button>
-                                </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Create</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div><!-- End Vertically centered Modal-->
@@ -92,14 +101,16 @@
             </tr>
         </thead>
         <tbody>
+            @php($i = 1)
+            @foreach($datakader as $value)
             <tr>
-                <th scope="row">1</th>
-                <td>Brandon Jacob</td>
-                <td>Mahasiswa Aktif</td>
-                <td>Elmacife</td>
-                <td>Teknik Informatika</td>
-                <td>2018</td>
-                <td>brandonjc@gmail.com</td>
+                <th scope="row">{{$i++}}</th>
+                <td>{{$value->name}}</td>
+                <td>{{$value->status}}</td>
+                <td>{{$value->komisariat}}</td>
+                <td>{{$value->jurusan}}</td>
+                <td>{{$value->angkatan}}</td>
+                <td>{{$value->email}}</td>
                 <td>
                     <div class="d-flex justify-content-start align-items-center ps-2">
                         <div class="dropdown">
@@ -112,7 +123,7 @@
                     </div>
                 </td>
             </tr>
-
+            @endforeach
         </tbody>
     </table>
     <!-- End Table with hoverable rows -->
