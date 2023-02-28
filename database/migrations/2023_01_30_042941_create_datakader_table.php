@@ -16,6 +16,7 @@ class CreateDatakaderTable extends Migration
         Schema::create('datakader', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('photo')->nullable();
             $table->string('status');
             $table->string('komisariat');
             $table->string('jurusan');

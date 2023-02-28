@@ -945,6 +945,12 @@ h6 {
 .news-fill-activity {
     font-size: 14px;
 }
+/*Content Manage */
+
+.content-hover:hover .image {
+    filter: brightness(80%);
+}
+
 /* Recent Sales */
 .dashboard .recent-sales {
     font-size: 14px;
@@ -1293,4 +1299,16 @@ h6 {
 }
 .background-img {
     background-images: url("../img/musykom2021.JPG");
+}
+
+.to-delete:hover {
+    color: red;
+}
+.to-highlight:hover {
+    color: darkblue;
+}
+.button-plain {
+    padding: 0;
+    border: none;
+    background: none;
 }

@@ -40,11 +40,15 @@
                                 <form action="/createdatakader" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="modal-body">
+                                        <div class="d-flex justify-content-center mb-3">
+                                            <img id="preview" alt="" style="width: 10rem;">
+                                        </div>
                                         <div class="col-sm-12">
                                             <div class="form-floating mb-3">
                                                 <input type="text" class="form-control" id="name" name="name" placeholder="Nama Kader">
                                                 <label for="floatingusername">Nama Kader</label>
                                             </div>
+                                            <input type="file" class="form-control mb-3" id="photo" name="photo" placeholder="Photo" onchange="loadFile(event)">
                                             <div class="form-floating mb-3">
                                                 <input type="text" class="form-control" id="komisariat" name="komisariat" placeholder="Komisariat">
                                                 <label for="floatingkomisariat">Komisariat</label>
@@ -104,25 +108,92 @@
             @php($i = 1)
             @foreach($datakader as $value)
             <tr>
-                <th scope="row">{{$i++}}</th>
-                <td>{{$value->name}}</td>
-                <td>{{$value->status}}</td>
-                <td>{{$value->komisariat}}</td>
-                <td>{{$value->jurusan}}</td>
-                <td>{{$value->angkatan}}</td>
-                <td>{{$value->email}}</td>
+                <td scope="row">{{$i++}}</td>
+                <td scope="row" style="text-transform:capitalize;">{{$value->name}}</td>
+                <td scope="row" style="text-transform:capitalize;">{{$value->status}}</td>
+                <td scope="row" style="text-transform:capitalize;">{{$value->komisariat}}</td>
+                <td scope="row" style="text-transform:capitalize;">{{$value->jurusan}}</td>
+                <td scope="row" style="text-transform:capitalize;">{{$value->angkatan}}</td>
+                <td scope="row">{{$value->email}}</td>
                 <td>
                     <div class="d-flex justify-content-start align-items-center ps-2">
                         <div class="dropdown">
                             <i class="bi bi-three-dots fs-3 point-button" style="color:blue" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#Profile-{{$value->id}}">Cek Profile</a>
                                 <a class="dropdown-item" href="/create" data-bs-toggle="modal" data-bs-target="#verticalycentered">Edit Data</a>
-                                <a class="dropdown-item" href="/createcontent">Delete Data</a>
+                                <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#Delete-{{$value->id}}">Delete Data</a>
                             </div>
                         </div>
                     </div>
                 </td>
             </tr>
+            <div class="modal fade" id="Delete-{{$value->id}}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/deletedata/{{$value->id}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <div class="modal-header">
+                                <h5 class="modal-title">Delete Data</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure want to delete this data <span class="fw-bold">{{$value->name}}</span> ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger">Yes, Delete This</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div><!-- End Basic Modal-->
+            <!-- Large Modal -->
+            <div class="modal fade" id="Profile-{{$value->id}}" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{$value->name}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-5 d-flex justify-content-end">
+                                    <img src="/photo/{{$value->photo}}" alt="" style="width: 15rem;">
+                                </div>
+                                <div class="col-7 pt-3">
+                                    <ul class="align-items-center">
+                                        <li style="list-style-type: none;" class="mb-3">
+                                            <h6 class=" fw-semibold">Name : <span class="fw-bold" style="text-transform:uppercase; color:darkblue">{{$value->name}}</span></h6>
+                                        </li>
+                                        <li style="list-style-type: none;" class="mb-3">
+                                            <h6 class="fw-semibold">Status : <span class="fw-bold" style="text-transform:uppercase; color:darkblue">{{$value->status}}</span></h6>
+                                        </li>
+                                        <li style="list-style-type: none;" class="mb-3">
+                                            <h6 class="fw-semibold">Komisariat : <span class="fw-bold" style="text-transform:uppercase; color:darkblue">{{$value->komisariat}}</span></h6>
+                                        </li>
+                                        <li style="list-style-type: none;" class="mb-3">
+                                            <h6 class="fw-semibold">Jurusan : <span class="fw-bold" style="text-transform:uppercase; color:darkblue">{{$value->jurusan}}</span></h6>
+                                        </li>
+                                        <li style="list-style-type: none;" class="mb-3">
+                                            <h6 class="fw-semibold">Angkatan : <span class="fw-bold" style="text-transform:uppercase; color:darkblue">{{$value->angkatan}}</span></h6>
+                                        </li>
+                                        <li style="list-style-type: none;" class="mb-3">
+                                            <h6 class="fw-semibold">No Telp : <span class="fw-bold" style="text-transform:uppercase; color:darkblue">{{$value->number_phone}}</span></h6>
+                                        </li>
+                                        <li style="list-style-type: none;" class="mb-3">
+                                            <h6 class="fw-semibold">Email : <span class="fw-bold" style="color:darkblue">{{$value->email}}</span></h6>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Large Modal-->
             @endforeach
         </tbody>
     </table>
@@ -141,4 +212,10 @@
     </div>
 </div>
 <!-- Table with hoverable rows -->
+<script>
+    var loadFile = function(event) {
+        var preview = document.getElementById('preview');
+        preview.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
 @endsection

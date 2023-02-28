@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announce;
 use App\Models\Article;
+use App\Models\Quick;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,6 +13,7 @@ class DashboardController extends Controller
     {
         $announce = Announce::all();
         $article = Article::all();
-        return view('pages.dashboard', compact('announce', 'article'));
+        $quick = Quick::all();
+        return view('pages.dashboard', compact('announce', 'article', 'quick'));
     }
 }

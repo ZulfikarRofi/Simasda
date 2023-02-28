@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    Hello, @USERS. Welcome to SIMASDA UNESA powered by dev
+    Hello, {{auth()->user()->name}}. Welcome to SIMASDA UNESA powered by dev
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <div class="card pb-5 px-3">
@@ -78,18 +78,18 @@
                 @foreach($article as $value)
                 <div class="row article-queue">
                     <div class="col-4 py-3 px-0">
-                        <img src="assets/img/news-2.jpg" alt="news" style="width: 100%;">
+                        <img src="/contentimg/{{$value->image}}" alt="news" style="width: 100%;">
                     </div>
                     <div class="col-8 py-3 px-2 d-flex justify-content-start">
                         <div class="news-fill news-fill-activity">
                             <div class="top-sec">
-                                <h4 class="fw-semibold"><a href="/articlepage/{{$value->id}}"> {{$value->title}}</a></h4>
-                                <p class="text-align-justify">
+                                <h4 class="fw-bold" style="text-align:justify"><a href="/articlepage/{{$value->id}}" style="text-transform:uppercase;"> {{$value->title}}</a></h4>
+                                <p class="text-align-justify" style="text-transform:capitalize; text-align:justify">
                                     {{$value->caption}}
                                 </p>
                             </div>
                             <div class="bottom-sec">
-                                <p class="passive-text p-0 m-0">Author : <span><a href="#">Author's Name</a></span></p>
+                                <p class="passive-text p-0 m-0" style="text-transform:capitalize;">Author : <span><a href="#">{{$value->author}}</a></span></p>
                                 <p class="passive-text p-0 m-0">Publish Date : {{$value->created_at}}</p>
                             </div>
                         </div>
@@ -129,18 +129,40 @@
 
         <div class="card-body pb-0">
             <h5 class="card-title">Quick News<span> | Today</span></h5>
-
+            @foreach($quick as $qn)
             <div class="news">
                 <div class="post-item clearfix">
-                    <img src="assets/img/news-5.jpg" alt="news image" class="news-images mb-2">
-                    <h4><a href="/">This is News Title</a></h4>
-                    <p class="mb-5">And this is the caption</p>
+                    <img src="/contentimg/{{$qn->image}}" alt="news image" class="news-images mb-2">
+                    <h6 style="text-align: justify;" class="fw-bold"><a href="" data-bs-toggle="modal" data-bs-target="#Modal-{{$qn->id}}" style="text-transform:uppercase;">{{$qn->title}}</a></h6>
+                    <p class=" mb-5" style="text-transform:capitalize; font-size:12px;">{{$qn->caption}}</p>
                     <div class="d-flex justify-content-end">
-                        <p class="detail-text float-right"><a href="#">read more.....</a></p>
+                        <p class="detail-text float-right"><a href="" data-bs-toggle="modal" data-bs-target="#Modal-{{$qn->id}}">read more.....</a></p>
+                        <!-- Extra Large Modal -->
+                        <div class="modal fade" id="Modal-{{$qn->id}}" tabindex="-1">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" style="text-transform:uppercase;">{{$qn->title}}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row mb-3 d-flex justify-content-center">
+                                            <img src="/contentimg/{{$qn->image}}" alt="" style="width:30rem;">
+                                        </div>
+                                        <div class="row mb-3 px-3">
+                                            {!!$qn->description!!}
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <p class="passive-text text-center">Author : <a href="">{{$qn->author}}</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Extra Large Modal-->
                     </div>
                 </div>
             </div><!-- End sidebar recent posts-->
-
+            @endforeach
         </div>
     </div><!-- End News & Updates -->
 

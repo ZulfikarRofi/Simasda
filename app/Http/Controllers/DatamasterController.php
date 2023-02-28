@@ -19,6 +19,7 @@ class DatamasterController extends Controller
             'name' => 'required|string|min:3',
             'status' => 'required|string|min:3',
             'komisariat' => 'required|string|min:3',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'jurusan' => 'required|string|min:3',
             'angkatan' => 'required|numeric|min:4',
             'email' => 'required|email',
@@ -33,8 +34,22 @@ class DatamasterController extends Controller
         $model->angkatan = $request->angkatan;
         $model->email = $request->email;
         $model->number_phone = $request->number_phone;
+        if ($request->file('photo')) {
+            $file = $request->file('photo');
+            $photo_name = time() . str_replace(" ", "", $file->getClientOriginalName());
+            $file->move('photo', $photo_name);
+            $model->photo = $photo_name;
+        }
         $model->save();
 
         return redirect('/datamanage')->with('success', 'New Kader Has Been Created');
+    }
+
+    public function destroy($id)
+    {
+        $model = Datakader::find($id);
+        $model->delete();
+
+        return redirect('/datamanage')->with('delete', 'The Selected Data Has Been Deleted');
     }
 }

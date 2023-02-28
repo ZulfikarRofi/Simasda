@@ -20,29 +20,36 @@
             <p class="passive-text">Fill these form until complete to create new content</p>
             <hr>
         </div>
-        <form action="/createarticle" method="post">
+        <div class="row d-flex justify-content-center mb-4">
+            <img id="output" alt="" style="width:30rem">
+        </div>
+        <form action="/createarticle" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3 px-2">
-                <input type="text" class="form-control" id="title" name="title" placeholder="New Content Title">
+                <input type="text" class="form-control" id="title" name="title" placeholder="New Content Title" style="text-transform:uppercase;">
             </div>
             <div class="row mb-3 px-2">
-                <input type="text" class="form-control" id="caption" name="caption" placeholder="New Content Caption">
+                <input type="text" class="form-control" id="caption" name="caption" placeholder="New Content Caption" style="text-transform:capitalize;">
             </div>
             <div class="row mb-3">
                 <div class="col-6">
-                    <input type="text" class="form-control" id="author" name="author" placeholder="Publisher">
+                    <input type="text" class="form-control" id="author" name="author" placeholder="Publisher" style="text-transform:capitalize;">
                 </div>
                 <div class="col-6">
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" id="image" name="image" onchange="loadFile(event)">
                 </div>
             </div>
-            <div class="row mb-3 px-2">
-                <textarea class="form-control" placeholder="Description here" id="description" name="description"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary float-end">Submit</button>
+            <textarea class="tinymce-editor" name="description" id="description" style="text-transform:capitalize;">Insert the content's description here !...</textarea>
+            <button type="submit" class="btn btn-primary float-end mt-3">Submit</button>
         </form>
     </div>
 </div>
 
+<script>
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
 
 @endsection

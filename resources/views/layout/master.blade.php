@@ -211,7 +211,7 @@
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="/profile" data-bs-toggle="dropdown">
                         <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{auth()->user()->name}}</span>
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -242,9 +242,12 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="/logout">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
+                            <a class="dropdown-item d-flex align-items-center">
+                                <form action="/logout" method="post">
+                                    @csrf
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <button type="submit" class="button-plain">Sign Out</button>
+                                </form>
                             </a>
                         </li>
 
@@ -275,7 +278,7 @@
             </li><!-- End Dashboard Nav -->
 
 
-
+            if(auth()->user()->is_admin == 1)
             <li class="nav-heading">Manager</li>
             <!-- End Blank Page Nav -->
             <li class="nav-item">

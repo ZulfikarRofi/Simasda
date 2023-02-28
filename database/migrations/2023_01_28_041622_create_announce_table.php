@@ -15,7 +15,7 @@ class CreateAnnounceTable extends Migration
     {
         Schema::create('announce', function (Blueprint $table) {
             $table->id();
-            $table->string('announce_fill');
+            $table->longText('announce_fill');
             $table->string('announcer')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

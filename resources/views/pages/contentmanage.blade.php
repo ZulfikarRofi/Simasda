@@ -43,6 +43,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
+                                            <p class="passive-text" style="font-size:12px; color:red;">*maximum 1 paragraph</p>
                                             <div class="form-floating">
                                                 <textarea class="form-control" placeholder="type your announcement here!" id="announce_fill" name="announce_fill" style="height: 100px;"></textarea>
                                                 <label for="floatingTextarea">Announcement's fill</label>
@@ -64,18 +65,30 @@
                                         <h5 class="modal-title fw-bold">New Quick News</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <!-- Quill Editor Full -->
-                                        <div class="quill-editor-full">
-                                            <p>Hello World!</p>
-                                            <p>This is Quill <strong>full</strong> editor</p>
+                                    <form action="/createquick" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" name="title" id="title" placeholder="Title">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" name="caption" id="caption" placeholder="Caption">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" name="author" id="author" placeholder="Author">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="file" class="form-control" name="image" id="image">
+                                            </div>
+                                            <div style="width:auto">
+                                                <textarea class="tinymce-editor" name="description" id="description">Input Description Here </textarea>
+                                            </div>
                                         </div>
-                                        <!-- End Quill Editor Full -->
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                                        <button type="button" class="btn btn-primary">Publish</button>
-                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Publish</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div><!-- End Vertically centered Modal-->
@@ -87,16 +100,18 @@
             @foreach($article as $value)
             <div class="col-3">
                 <div class="content-list"><a href="/articlepage/{{$value->id}}">
-                        <img src="assets/img/news-2.jpg" alt="news" style="width: 100%;">
+                        <div class="content-hover">
+                            <img class="image" src="/contentimg/{{$value->image}}" alt="news" style="width: 100%;">
+                        </div>
                         <div class="d-flex justify-content-center">
-                            <p class="passive-text fw-bold" style="color:black">{{$value->title}}</p>
+                            <h6 class="p-1 fw-bold to-highlight" style="text-align:justify; text-transform:capitalize;">{{$value->title}}</h6>
                         </div>
                     </a>
                 </div>
             </div>
             @endforeach
             <!-- Basic Pagination -->
-            <div class="d-flex justify-content-center mt-3">
+            <!-- <div class="d-flex justify-content-center mt-3">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -105,9 +120,47 @@
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
-                </nav><!-- End Basic Pagination -->
-            </div>
+                </nav>
+            </div> -->
+            <!-- End Basic Pagination -->
+        </div>
+        <div class="row card-body">
+            <h5 class="card-title px-3">Content Management <span> | List Quick News</span></h5>
+            <!-- List group with Advanced Contents -->
+            <div class="list-group ps-2">
+                @foreach($quick as $qn)
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1 fw-semibold">{{$qn->title}}</h5>
+                        <small data-bs-toggle="modal" data-bs-target="#Delete-{{$qn->id}}"><i class="fs-5 bi bi-trash to-delete"></i></small>
+                    </div>
+                    <p class="mb-1">{{$qn->caption}}</p>
+                    <small class="text-muted">{!!$qn->description!!}</small>
+                </a>
+                <div class="modal fade" id="Delete-{{$qn->id}}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="/deleteQuick/{{$qn->id}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete Quick News</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure want to delete this <span class="fw-semibold"> {{$qn->title}}</span>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-danger">Yes, Delete it</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div><!-- End Basic Modal-->
+                @endforeach
+            </div><!-- End List group Advanced Content -->
         </div>
     </div>
-
-    @endsection
+</div>
+@endsection
