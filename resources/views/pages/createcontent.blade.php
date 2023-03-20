@@ -26,16 +26,14 @@
         <form action="/createarticle" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3 px-2">
-                <input type="text" class="form-control" id="title" name="title" placeholder="New Content Title" style="text-transform:uppercase;">
-            </div>
-            <div class="row mb-3 px-2">
-                <input type="text" class="form-control" id="caption" name="caption" placeholder="New Content Caption" style="text-transform:capitalize;">
+                <input type="text" class="form-control" id="title" name="title" placeholder="New Content Title">
             </div>
             <div class="row mb-3">
-                <div class="col-6">
-                    <input type="text" class="form-control" id="author" name="author" placeholder="Publisher" style="text-transform:capitalize;">
+                <div class="col-8">
+                    <input type="text" class="form-control" id="caption" name="caption" placeholder="New Content Caption">
+                    <input type="text" class="form-control" id="author" name="author" value="Admin-{{auth()->user()->name}}" hidden>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <input type="file" class="form-control" id="image" name="image" onchange="loadFile(event)">
                 </div>
             </div>

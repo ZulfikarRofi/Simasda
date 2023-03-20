@@ -24,6 +24,7 @@
                 </form>
             </div><!-- End Search Bar -->
             <div class="d-flex justify-content-end px-3">
+                @if(auth()->user()->is_admin == 1)
                 <div class="dropdown">
                     <i class="bi bi-plus-circle fs-3 point-button" style="color:blue" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -88,6 +89,7 @@
                         </div>
                     </div><!-- End Vertically centered Modal-->
                 </div>
+                @endif
             </div>
         </div>
     </div>
@@ -121,8 +123,10 @@
                             <i class="bi bi-three-dots fs-3 point-button" style="color:blue" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#Profile-{{$value->id}}">Cek Profile</a>
+                                @if(auth()->user()->is_admin == 1)
                                 <a class="dropdown-item" href="/create" data-bs-toggle="modal" data-bs-target="#verticalycentered">Edit Data</a>
                                 <a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#Delete-{{$value->id}}">Delete Data</a>
+                                @endif
                             </div>
                         </div>
                     </div>

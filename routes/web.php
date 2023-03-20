@@ -5,6 +5,7 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatamasterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,15 +20,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 // Routing Get
-Route::get('/', [DashboardController::class, 'dashboardIndex']);
+Route::get('/', [DashboardController::class, 'dashboardIndex'])->middleware('auth');
 Route::get('/articlepage/{id}', [ContentController::class, 'articleRead']);
 Route::get('/contentmanage', [ContentController::class, 'contentManage'])->middleware('is_admin');
-Route::get('/datamanage', [DatamasterController::class, 'kaderManage'])->middleware('is_admin');
+Route::get('/datamanage', [DatamasterController::class, 'kaderManage']);
+Route::get('/profile/{id}', [ProfileController::class, 'getProfile']);
 Route::get('/register', function () {
     return view('auth.register');
 });
@@ -39,7 +37,7 @@ Route::post('/createdatakader', [DatamasterController::class, 'createKader']);
 Route::post('/createquick', [ContentController::class, 'createQuick']);
 Route::post('/storecarousel', [ContentController::class, 'storeCarousel']);
 Route::post('/login', [LoginController::class, 'postLogin']);
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [LoginController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
 //Routing Patch
@@ -58,9 +56,6 @@ Route::get('/usersmanage', function () {
 });
 Route::get('/createcontent', function () {
     return view('pages.createcontent');
-});
-Route::get('/profile', function () {
-    return view('pages.profile');
 });
 Route::get('/helpme', function () {
     return view('pages.helpme');

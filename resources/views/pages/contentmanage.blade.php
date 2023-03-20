@@ -28,35 +28,9 @@
                     <div class="dropdown">
                         <i class="bi bi-plus-circle fs-3 point-button" style="color:blue" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="/create" data-bs-toggle="modal" data-bs-target="#verticalycentered">Create New Announcement</a>
                             <a class="dropdown-item" href="/createcontent">Create New Content</a>
                             <a class="dropdown-item" href="/create" data-bs-toggle="modal" data-bs-target="#newquicknews">Create New Quick News</a>
                         </div>
-                        <!-- Modal Vertical Centered -->
-                        <div class="modal fade" id="verticalycentered" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <form action="/createannounce" method="post">
-                                        @csrf
-                                        <div class="modal-header">
-                                            <h5 class="modal-title fw-bold">New Announcement</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p class="passive-text" style="font-size:12px; color:red;">*maximum 1 paragraph</p>
-                                            <div class="form-floating">
-                                                <textarea class="form-control" placeholder="type your announcement here!" id="announce_fill" name="announce_fill" style="height: 100px;"></textarea>
-                                                <label for="floatingTextarea">Announcement's fill</label>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                                            <button type="submit" class="btn btn-primary">Publish</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div><!-- End Vertically centered Modal-->
                         <!-- Modal New Quick News -->
                         <div class="modal fade" id="newquicknews" tabindex="-1">
                             <div class="modal-dialog modal-dialog-centered">
@@ -75,7 +49,7 @@
                                                 <input type="text" class="form-control" name="caption" id="caption" placeholder="Caption">
                                             </div>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" name="author" id="author" placeholder="Author">
+                                                <input type="text" class="form-control" name="author" id="author" value="Admin-{{auth()->user()->name}}" hidden>
                                             </div>
                                             <div class="mb-3">
                                                 <input type="file" class="form-control" name="image" id="image">

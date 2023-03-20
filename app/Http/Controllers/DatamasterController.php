@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DatakaderExport;
 use App\Models\Datakader;
 use Illuminate\Http\Request;
 
@@ -51,5 +53,10 @@ class DatamasterController extends Controller
         $model->delete();
 
         return redirect('/datamanage')->with('delete', 'The Selected Data Has Been Deleted');
+    }
+
+    public function KaderExport()
+    {
+        return Excel::download(new DatakaderExport, 'datakader.xlsx');
     }
 }

@@ -5,15 +5,17 @@
 
 <div class="card">
     <div class="article-content">
-        <h5 class="card-title mb-2">Article Page <span> | {{$article->title}}</span></h5>
-        <div class="d-flex justify-content-end mx-4">
-            <div class="">
+        <div class="d-flex justify-content-between mx-4">
+            <h5 class="card-title mb-2">Article Page <span style="text-transform: capitalize;"> | {{$article->title}}</span></h5>
+            @if(auth()->user()->is_admin == 1)
+            <div class="mb-2 d-flex align-items-center">
                 <a href="" class="" style="color:green"><i class="bi bi-pencil"></i> Edit</a>
                 <!-- Vertically centered Modal -->
                 <a type="button" class="ms-2" data-bs-toggle="modal" data-bs-target="#verticalycentered" style="color:red">
                     <i class="bi bi-trash"></i> Delete
                 </a>
             </div>
+            @endif
             <div class="modal fade" id="verticalycentered" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <form action="/deletearticle/{{$article->id}}" method="post">
@@ -38,7 +40,7 @@
         </div>
         <div class="card-body">
             <div class="news-title d-flex justify-content-center mb-2">
-                <h3 class="fw-bold" style="text-transform:uppercase;">{{$article->title}}</h3>
+                <h3 class="fw-bold text-center" style="text-transform:uppercase;">{{$article->title}}</h3>
             </div>
             <div class="head-section d-flex justify-content-center">
                 <div>

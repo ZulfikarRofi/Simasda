@@ -13,6 +13,11 @@ class User extends Model implements Authenticatable
 {
     use HasFactory, AuthenticatableTrait;
 
+    public function Profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
     protected $fillable = [
         'name', 'email', 'password', 'is_admin',
     ];

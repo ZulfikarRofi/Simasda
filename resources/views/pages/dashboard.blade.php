@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    Hello, {{auth()->user()->name}}. Welcome to SIMASDA UNESA powered by dev
+    Hello, <span class="fw-semibold">{{auth()->user()->name}}</span>. Welcome to SIMASDA UNESA powered by dev
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 <div class="card pb-5 px-3">

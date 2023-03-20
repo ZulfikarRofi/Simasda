@@ -222,7 +222,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="/profile">
+                            <a class="dropdown-item d-flex align-items-center" href="/profile/{{auth()->user()->id}}">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
                             </a>
@@ -271,14 +271,14 @@
                 </a>
             </li><!-- End Dashboard Nav -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/">
+                <a class="nav-link collapsed" href="/datamanage">
                     <i class="bi bi-grid"></i>
                     <span>Data Master</span>
                 </a>
             </li><!-- End Dashboard Nav -->
 
 
-            if(auth()->user()->is_admin == 1)
+            @if(auth()->user()->is_admin == 1)
             <li class="nav-heading">Manager</li>
             <!-- End Blank Page Nav -->
             <li class="nav-item">
@@ -299,6 +299,7 @@
                     <span>Content Management</span>
                 </a>
             </li>
+            @endif
         </ul>
 
     </aside><!-- End Sidebar-->
