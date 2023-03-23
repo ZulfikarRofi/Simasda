@@ -202,6 +202,7 @@
         </tbody>
     </table>
     <!-- End Table with hoverable rows -->
+    {{$}}
     <!-- Basic Pagination -->
     <div class="d-flex justify-content-center mt-3">
         <nav aria-label="Page navigation example">

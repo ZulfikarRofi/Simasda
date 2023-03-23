@@ -11,7 +11,7 @@ class DatamasterController extends Controller
 {
     public function kaderManage()
     {
-        $datakader = Datakader::all();
+        $datakader = Datakader::paginate(5);
         return view('pages.datamanage', compact('datakader'));
     }
 

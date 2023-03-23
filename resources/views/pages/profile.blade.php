@@ -9,17 +9,27 @@
 
             <div class="card">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                    <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                    <h2>{{auth()->user()->name}}</h2>
-                    <h3>Web Designer</h3>
-                    <p>{{$profile->email}}</p>
+                    @if($profile === null)
+                    <img src="/assets/img/avatar-3.png" alt="default-m">
+                    @else
+                    <img src="/photo_profile/{{$profile->photo_profile}}" alt="default-m" class="profile-pic-border">
+                    @endif
+                    <h2 class="fw-bold fs-4" style="text-transform: capitalize;">{{auth()->user()->name}}</h2>
+                    @if(auth()->user()->is_admin == 1)
+                    <h3>Admin</h3>
+                    @else
+                    <h3>User</h3>
+                    @endif
+                    @if($profile === null)
+                    <p class="passive-text" style="font-size: 14px;">No social media registered</p>
+                    @else
                     <div class="social-links mt-2">
                         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
                         <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="https://www.instagram.com/{{$profile->instagram}}" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="https://instagram.com/{{$profile->instagram}}" class="instagram"><i class="bi bi-instagram"></i></a>
                         <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
                     </div>
+                    @endif
                 </div>
             </div>
 
@@ -46,154 +56,187 @@
 
                     </ul>
                     <div class="tab-content pt-2">
-
                         <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            @if($profile === null)
+                            <div class="d-flex justify-content-center p-4">
+                                <img src="/assets/img/no-data-entries.png" alt="no data entries">
+                            </div>
+                            @else
+
                             <h5 class="card-title">About</h5>
-                            <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                            @if($profile->about === null)
+                            <p class="small fst-italic">Data not registered yet</p>
+                            @else
+                            <p class="small fst-italic">{{$profile->about}}</p>
+                            @endif
 
                             <h5 class="card-title">Profile Details</h5>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                                @if(auth()->user()->name === null)
+                                <div class="col-lg-9 col-md-8" style="text-transform: capitalize;">Data not registered yet</div>
+                                @else
+                                <div class="col-lg-9 col-md-8" style="text-transform: capitalize;">{{auth()->user()->name}}</div>
+                                @endif
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-4 label">Company</div>
-                                <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                                <div class="col-lg-3 col-md-4 label">Komisariat</div>
+                                @if($profile->komisariat === null)
+                                <div class="col-lg-9 col-md-8" style="text-transform: capitalize;">Data not registered yet</div>
+                                @else
+                                <div class="col-lg-9 col-md-8">{{$profile->komisariat}}</div>
+                                @endif
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-3 col-md-4 label">Job</div>
-                                <div class="col-lg-9 col-md-8">Web Designer</div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">Country</div>
-                                <div class="col-lg-9 col-md-8">USA</div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">Address</div>
-                                <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                                <div class="col-lg-3 col-md-4 label">Jurusan</div>
+                                @if($profile->jurusan === null)
+                                <div class="col-lg-9 col-md-8" style="text-transform: capitalize;">Data not registered yet</div>
+                                @else
+                                <div class="col-lg-9 col-md-8">{{$profile->jurusan}}</div>
+                                @endif
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Phone</div>
-                                <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                                @if($profile->phone_number === null)
+                                <div class="col-lg-9 col-md-8" style="text-transform: capitalize;">Data not registered yet</div>
+                                @else
+                                <div class="col-lg-9 col-md-8">{{$profile->phone_number}}</div>
+                                @endif
                             </div>
 
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label">Email</div>
-                                <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                                @if($profile->email === null)
+                                <div class="col-lg-9 col-md-8" style="text-transform: capitalize;">Data not registered yet</div>
+                                @else
+                                <div class="col-lg-9 col-md-8">{{$profile->email}}</div>
+                                @endif
                             </div>
-
+                            @endif
                         </div>
 
                         <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-
                             <!-- Profile Edit Form -->
-                            <form>
+                            @if($profile === null)
+                            <form action="/createprofile" method="post" enctype="multipart/form-data">
+                                @csrf
                                 <div class="row mb-3">
                                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <img src="assets/img/profile-img.jpg" alt="Profile">
+                                        <img id="output" alt="Profile" style="width:100%">
                                         <div class="pt-2">
-                                            <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                                            <div class="d-flex">
+                                                <input type="file" name="photo_profile" id="photo_profile" onchange="loadFile(event)" hidden>
+                                                <label for="photo_profile" class="">
+                                                    <i class="btn btn-primary bi bi-upload"></i>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="row mb-3">
-                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
-                                    </div>
-                                </div>
-
                                 <div class="row mb-3">
                                     <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                                        <textarea name="about" class="form-control" id="about" style="height: 100px; resize:none">Add something about you</textarea>
+                                    </div>
+                                </div>
+
+                                <input name="user_id" type="int" class="form-control" id="user_id" value="{{auth()->user()->id}}" hidden>
+
+                                <div class="row mb-3">
+                                    <label for="komisariat" class="col-md-4 col-lg-3 col-form-label">Komisariat</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="komisariat" type="text" class="form-control" id="komisariat" value="" placeholder="Komisariat">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
+                                    <label for="jurusan" class="col-md-4 col-lg-3 col-form-label">Jurusan</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
+                                        <input name="jurusan" type="text" class="form-control" id="jurusan" value="" placeholder="Asal Jurusan">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
+                                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone Number</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="country" type="text" class="form-control" id="Country" value="USA">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                                        <input name="phone_number" type="text" class="form-control" id="phone_number" value="" placeholder="Phone Number">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                                    <div class="col-md-8 col-lg-9">
-                                        <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
+                                        <input name="email" type="email" class="form-control" id="email" value="" placeholder="Email">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
+                                        <input name="instagram" type="text" class="form-control" id="Instagram" value="" placeholder="Your Instagram Account">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                            @else
+                            <form action="/updateprofile" method="post" enctype="multipart/form-data">
+                                @csrf
+                                @method('PATCH')
+                                <div class="row mb-3">
+                                    <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <textarea name="about" class="form-control" id="about" style="height: 100px; resize:none">{{$profile->about}}</textarea>
+                                    </div>
+                                </div>
+
+                                <input name="user_id" type="int" class="form-control" id="user_id" value="{{auth()->user()->id}}" hidden>
+
+                                <div class="row mb-3">
+                                    <label for="komisariat" class="col-md-4 col-lg-3 col-form-label">Komisariat</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="komisariat" type="text" class="form-control" id="komisariat" value="{{$profile->komisariat}}" placeholder="Komisariat">
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
+                                    <label for="jurusan" class="col-md-4 col-lg-3 col-form-label">Jurusan</label>
                                     <div class="col-md-8 col-lg-9">
-                                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                                        <input name="jurusan" type="text" class="form-control" id="jurusan" value="{{$profile->jurusan}}" placeholder="Asal Jurusan">
                                     </div>
                                 </div>
 
+                                <div class="row mb-3">
+                                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone Number</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="phone_number" type="text" class="form-control" id="phone_number" value="{{$profile->phone_number}}" placeholder="Phone Number">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="email" type="email" class="form-control" id="email" value="{{$profile->email}}" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="instagram" type="text" class="form-control" id="Instagram" value="{{$profile->instagram}}" placeholder="Your Instagram Account">
+                                    </div>
+                                </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </form><!-- End Profile Edit Form -->
-
+                            @endif
                         </div>
 
                         <div class="tab-pane fade pt-3" id="profile-change-password">
@@ -236,4 +279,11 @@
         </div>
     </div>
 </section>
+
+<script>
+    var loadFile = function(event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
 @endsection

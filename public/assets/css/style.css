@@ -1312,3 +1312,6 @@ h6 {
     border: none;
     background: none;
 }
+.profile-pic-border {
+    border-radius: 100px;
+}

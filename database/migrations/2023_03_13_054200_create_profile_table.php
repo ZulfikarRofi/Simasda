@@ -17,6 +17,9 @@ class CreateProfileTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->longText('about');
+            $table->string('komisariat');
+            $table->string('jurusan');
             $table->string('phone_number');
             $table->string('email');
             $table->string('photo_profile');
